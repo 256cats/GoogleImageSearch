@@ -8,7 +8,7 @@ if($results = $imageSearch->search('http://upload.wikimedia.org/wikipedia/common
         echo "Best guess: <strong><a href=\"{$results['best_guess'][1]}\">{$results['best_guess'][0]}</strong><br />\n";
         echo "<ol><br />\n";
         foreach($results['search_results'] as $k => $r) {
-            echo "<li><a href=\"{$r[1]}\">{$r[0]}</a></li>\n";
+            echo "<li><a href=\"{$r[1]}\">{$r[0]}</a> ; <a href=\"{$r[2]}\">Original image</a></li>\n";
         }
         echo "</ol><br />\n";
     } else {
@@ -22,7 +22,7 @@ if($results = $imageSearch->search('test.jpg', 2)) {
         echo "Best guess: <strong><a href=\"{$results['best_guess'][1]}\">{$results['best_guess'][0]}</strong><br />\n";
         echo "<ol><br />\n";
         foreach($results['search_results'] as $k => $r) {
-            echo "<li><a href=\"{$r[1]}\">{$r[0]}</a></li>\n";
+            echo "<li><a href=\"{$r[1]}\">{$r[0]}</a> ; <a href=\"{$r[2]}\">Original image</a></li>\n";
         }
         echo "</ol><br />\n";
     } else {

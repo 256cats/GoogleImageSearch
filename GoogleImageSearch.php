@@ -91,16 +91,30 @@ class GoogleImageSearch {
      */
     public function getSearchResults(simple_html_dom $dom) {
         $result = array();
+		//echo $dom; die();
         $c = count($dom->find('div.srg')) > 1 ? 1 : 0; // if this is first page, we have 2 divs, first with some irrelevant
         //links, so skip the first page
 
         $d = $dom->find('div.srg', $c); // get second div(if this is 1st page), or first div
 
+        foreach($d->find('div.rc') as $div) {
+			$a = $div->find('h3.r a', 0); // get link to the website
+			
+			//Get original image url
+			$originalImg = $div->find('div.th a', 0);
+			preg_match('/imgurl=(.+?)&/', $originalImg->href, $matches);
+			
+			$result[] = array(htmlspecialchars_decode($a->plaintext, ENT_QUOTES), $a->href, $matches[1]);
+			
+        }
+		
+		/*
         foreach($d->find('div.rc h3.r') as $h3) {
             foreach($h3->find('a') as $a) { // get links
-                $result[] = array(htmlspecialchars_decode($a->plaintext, ENT_QUOTES), $a->href);
+                $r = array(htmlspecialchars_decode($a->plaintext, ENT_QUOTES), $a->href);
+				$result[] = $r;
             }
-        }
+        }*/
         return $result;
     }
 
