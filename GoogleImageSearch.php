@@ -91,11 +91,15 @@ class GoogleImageSearch {
      */
     public function getSearchResults(simple_html_dom $dom) {
         $result = array();
-		//echo $dom; die();
-        $c = count($dom->find('div.srg')) > 1 ? 1 : 0; // if this is first page, we have 2 divs, first with some irrelevant
-        //links, so skip the first page
-
-        $d = $dom->find('div.srg', $c); // get second div(if this is 1st page), or first div
+		
+		$count = count($dom->find('div.srg'));
+		if($count) { // if found div.srg
+			$c = $count > 1 ? 1 : 0; // if this is first page, we have 2 divs, first with some irrelevant
+			//links, so skip the first page
+			$d = $dom->find('div.srg', $c); // get second div(if this is 1st page), or first div
+		} else { // no div.srg found, search all page
+			$d = $dom;
+		}
 
         foreach($d->find('div.rc') as $div) {
 			$a = $div->find('h3.r a', 0); // get link to the website
@@ -107,14 +111,7 @@ class GoogleImageSearch {
 			$result[] = array(htmlspecialchars_decode($a->plaintext, ENT_QUOTES), $a->href, $matches[1]);
 			
         }
-		
-		/*
-        foreach($d->find('div.rc h3.r') as $h3) {
-            foreach($h3->find('a') as $a) { // get links
-                $r = array(htmlspecialchars_decode($a->plaintext, ENT_QUOTES), $a->href);
-				$result[] = $r;
-            }
-        }*/
+
         return $result;
     }
 
