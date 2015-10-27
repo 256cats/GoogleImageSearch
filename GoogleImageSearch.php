@@ -126,7 +126,7 @@ class GoogleImageSearch {
         //based on http://stackoverflow.com/a/18936880
         list($w, $h) = getimagesize($fileName);
         $dom = $this->getDom('https://www.google.com/searchbyimage/upload', array(
-                'encoded_image' => '@'.realpath($fileName),
+                'encoded_image' => new CurlFile(realpath($fileName)), //'@'.realpath($fileName),
                 'image_url' => '',
                 'image_content' => '',
                 'filename' => '',
